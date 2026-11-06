@@ -1,0 +1,159 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    name: Build Rosegram APK
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: |
+          set -euo pipefail
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-25" "build-tools;25.0.2" "platform-tools"
+
+      - name: Install NDK r14b
+        run: |
+          set -euo pipefail
+          curl -L -o ndk.zip https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+          unzip -q ndk.zip
+          echo "ANDROID_NDK_HOME=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
+
+      - name: Create local.properties
+        run: |
+          set -euo pipefail
+          printf 'sdk.dir=%s\nndk.dir=%s\n' "$ANDROID_HOME" "$ANDROID_NDK_HOME" > local.properties
+
+      - name: Create signing keystore
+        run: |
+          set -euo pipefail
+          mkdir -p TMessagesProj/config
+          keytool -genkeypair -v \
+            -keystore TMessagesProj/config/release.keystore \
+            -alias KEY \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass PASSWORD \
+            -keypass PASSWORD \
+            -dname "CN=Rosegram, OU=CI, O=Rosegram, L=CI, ST=CI, C=US"
+
+      - name: Create BuildVars.java
+        run: |
+          set -euo pipefail
+          cat > TMessagesProj/src/main/java/ir/telgeram/messenger/BuildVars.java <<'EOF'
+          package ir.telgeram.messenger;
+
+          public class BuildVars {
+              public static boolean DEBUG_VERSION = false;
+              public static boolean DEBUG_PRIVATE_VERSION = false;
+              public static int BUILD_VERSION = 5007;
+              public static String BUILD_VERSION_STRING = "3.18.0.7";
+              public static int APP_ID = 4;
+              public static String APP_HASH = "014b35b6184100b085b0d0572c1c1500";
+              public static String HOCKEY_APP_HASH = "";
+              public static String HOCKEY_APP_HASH_DEBUG = "";
+              public static String BING_SEARCH_KEY = "";
+              public static String FOURSQUARE_API_ID = "";
+              public static String FOURSQUARE_API_KEY = "";
+              public static String FOURSQUARE_API_VERSION = "20150326";
+          }
+          EOF
+
+      - name: Create google-services.json
+        run: |
+          set -euo pipefail
+          cat > TMessagesProj/google-services.json <<'EOF'
+          {
+            "project_info": {
+              "project_number": "0",
+              "firebase_url": "https://rosegram.firebaseio.com",
+              "project_id": "rosegram",
+              "storage_bucket": "rosegram.appspot.com"
+            },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:0:android:0",
+                  "android_client_info": {
+                    "package_name": "com.silverdesign.rosegram"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "dummy"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              }
+            ],
+            "configuration_version": "1"
+          }
+          EOF
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build release APK
+        run: |
+          set -euo pipefail
+          ./gradlew assembleFatRelease --no-daemon --stacktrace
+
+      - name: Collect APK
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          APK="$(find TMessagesProj/build/outputs/apk -name '*.apk' | head -n 1)"
+          if [ -z "$APK" ]; then
+            echo "APK not found"
+            find TMessagesProj/build/outputs -maxdepth 5 -type f -print || true
+            exit 1
+          fi
+          cp "$APK" dist/Rosegram-3.18.0.7.apk
+          ls -lh dist/Rosegram-3.18.0.7.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rosegram-3.18.0.7.apk
+          path: dist/Rosegram-3.18.0.7.apk
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-3.18.0.7-${{ github.run_number }}
+          name: APK 3.18.0.7 (${{ github.run_number }})
+          files: dist/Rosegram-3.18.0.7.apk
+          generate_release_notes: true
