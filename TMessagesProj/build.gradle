@@ -8,7 +8,6 @@ repositories {
 }
 
 configurations {
-    compile.exclude module: 'support-v4'
     all {
         exclude group: 'androidx.appcompat', module: 'appcompat'
     }

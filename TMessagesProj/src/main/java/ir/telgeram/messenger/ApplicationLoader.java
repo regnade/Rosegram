@@ -42,6 +42,7 @@ public class ApplicationLoader extends Application {
     @SuppressLint("StaticFieldLeak")
     public static volatile Context applicationContext;
     public static volatile Handler applicationHandler;
+    public static volatile int instance_number = 0;
     private static volatile boolean applicationInited = false;
 
     public static volatile boolean isScreenOn = false;
@@ -177,7 +178,7 @@ public class ApplicationLoader extends Application {
         boolean enablePushConnection = preferences.getBoolean("pushConnection", true);
 
         MessagesController.getInstance();
-        ConnectionsManager.getInstance().init(BuildVars.BUILD_VERSION, TLRPC.LAYER, BuildVars.APP_ID, deviceModel, systemVersion, appVersion, langCode, configPath, FileLog.getNetworkLogPath(), UserConfig.getClientUserId(), enablePushConnection);
+        ConnectionsManager.getInstance().init(instance_number, BuildVars.BUILD_VERSION, TLRPC.LAYER, BuildVars.APP_ID, deviceModel, systemVersion, appVersion, langCode, configPath, FileLog.getNetworkLogPath(), UserConfig.getClientUserId(), enablePushConnection);
         if (UserConfig.getCurrentUser() != null) {
             MessagesController.getInstance().putUser(UserConfig.getCurrentUser(), true);
             ConnectionsManager.getInstance().applyCountryPortNumber(UserConfig.getCurrentUser().phone);
