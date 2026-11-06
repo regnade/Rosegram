@@ -9,6 +9,9 @@ repositories {
 
 configurations {
     compile.exclude module: 'support-v4'
+    all {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+    }
 }
 
 dependencies {
@@ -38,13 +41,17 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-gcm'
         exclude group: 'com.google.android.gms', module: 'play-services-location'
     }
-    compile 'com.github.QuadFlask:colorpicker:0.0.15'
+    compile('com.github.QuadFlask:colorpicker:0.0.15') {
+        exclude group: 'androidx.appcompat'
+        exclude group: 'androidx.annotation'
+        exclude group: 'androidx.core'
+    }
     // Download, Catch, Etc... Images
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
     flavorDimensions "abi"
 
