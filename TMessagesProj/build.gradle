@@ -38,7 +38,7 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-gcm'
         exclude group: 'com.google.android.gms', module: 'play-services-location'
     }
-    compile 'com.github.QuadFlask:colorpicker:0.0.12'
+    compile 'com.github.QuadFlask:colorpicker:0.0.15'
     // Download, Catch, Etc... Images
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
