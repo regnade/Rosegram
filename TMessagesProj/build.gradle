@@ -185,7 +185,9 @@ android {
     }
 
     applicationVariants.all { variant ->
-        variant.mergedFlavor.versionCode = defaultConfig.versionCode
+        variant.outputs.each { output ->
+            output.versionCodeOverride = defaultConfig.versionCode
+        }
     }
 
     defaultConfig {
