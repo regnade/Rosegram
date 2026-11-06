@@ -10,6 +10,7 @@ repositories {
 configurations {
     all {
         exclude group: 'androidx.appcompat', module: 'appcompat'
+        exclude group: 'com.google.android.gms', module: 'play-services-ads-identifier'
         resolutionStrategy {
             force 'com.google.android.gms:play-services-basement:10.2.0'
             force 'com.google.android.gms:play-services-base:10.2.0'
