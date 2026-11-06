@@ -195,6 +195,10 @@ android {
         targetSdkVersion 25
         versionName "3.18.0.7"
         multiDexEnabled true
+        manifestPlaceholders = [
+                onesignal_app_id: "00000000-0000-0000-0000-000000000000",
+                onesignal_google_project_number: "REMOTE"
+        ]
 
         externalNativeBuild {
             ndkBuild {
