@@ -691,7 +691,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (messageObject != null) {
             LatLng latLng = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
             try {
-                googleMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin)));
+                googleMap.addMarker(new MarkerOptions().position(latLng));
             } catch (Exception e) {
                 FileLog.e(e);
             }

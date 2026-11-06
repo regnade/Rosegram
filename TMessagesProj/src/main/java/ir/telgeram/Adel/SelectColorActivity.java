@@ -10,6 +10,8 @@ import android.widget.GridView;
 
 import android.app.AlertDialog;
 
+import org.json.JSONObject;
+
 import ir.telgeram.messenger.AndroidUtilities;
 import ir.telgeram.messenger.LocaleController;
 import ir.telgeram.messenger.R;

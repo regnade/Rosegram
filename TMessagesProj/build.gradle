@@ -10,6 +10,14 @@ repositories {
 configurations {
     all {
         exclude group: 'androidx.appcompat', module: 'appcompat'
+        resolutionStrategy {
+            force 'com.google.android.gms:play-services-basement:10.2.0'
+            force 'com.google.android.gms:play-services-base:10.2.0'
+            force 'com.google.android.gms:play-services-gcm:10.2.0'
+            force 'com.google.android.gms:play-services-maps:10.2.0'
+            force 'com.google.android.gms:play-services-location:10.2.0'
+            force 'com.google.android.gms:play-services-vision:10.2.0'
+        }
     }
 }
 
