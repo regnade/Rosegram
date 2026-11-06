@@ -33,7 +33,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'
     compile 'com.google.android.gms:play-services-location:10.2.0'
-    compile ('com.onesignal:OneSignal:[3.5.3,4.0.0)') {
+    compile ('com.onesignal:OneSignal:3.15.6') {
         exclude group: 'com.android.support', module: 'customtabs'
         exclude group: 'com.google.android.gms', module: 'play-services-gcm'
         exclude group: 'com.google.android.gms', module: 'play-services-location'
