@@ -6,19 +6,19 @@
  * Copyright Nikolai Kudashov, 2013-2017.
  */
 
-package org.telegram.ui.Adapters;
+package ir.telgeram.ui.Adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.support.widget.RecyclerView;
-import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.Cells.DialogCell;
-import org.telegram.ui.Cells.LoadingCell;
-import org.telegram.ui.Components.RecyclerListView;
+import ir.telgeram.messenger.AndroidUtilities;
+import ir.telgeram.messenger.MessagesController;
+import ir.telgeram.messenger.support.widget.RecyclerView;
+import ir.telgeram.tgnet.TLRPC;
+import ir.telgeram.ui.Cells.DialogCell;
+import ir.telgeram.ui.Cells.LoadingCell;
+import ir.telgeram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 

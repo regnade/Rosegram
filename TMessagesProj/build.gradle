@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 
 repositories {
+    maven { url 'https://maven.google.com' }
     mavenCentral()
-    jcenter()
     maven { url "https://jitpack.io" }
+    jcenter()
 }
 
 configurations {

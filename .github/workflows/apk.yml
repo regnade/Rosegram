@@ -15,45 +15,61 @@ jobs:
     name: Build Rosegram APK
     runs-on: ubuntu-22.04
     timeout-minutes: 120
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_HOME: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Set up JDK 8
+      - name: Set up JDKs
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "8"
+          java-version: |
+            17
+            8
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK packages
+      - name: Install Android SDK packages
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
         run: |
           set -euo pipefail
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platforms;android-25" "build-tools;25.0.2" "platform-tools"
+          SDKMANAGER="$(ls -d $ANDROID_SDK_ROOT/cmdline-tools/*/bin/sdkmanager | tail -n 1)"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-25" "build-tools;25.0.2" "platform-tools"
 
       - name: Install NDK r14b
         run: |
           set -euo pipefail
-          curl -L -o ndk.zip https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+          curl -L --retry 5 -o ndk.zip https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
           unzip -q ndk.zip
           echo "ANDROID_NDK_HOME=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
+
+      - name: Fetch libtgvoip
+        run: |
+          set -euo pipefail
+          if [ ! -f TMessagesProj/jni/libtgvoip/VoIPController.cpp ]; then
+            git clone --depth 1 "https://github.com/grishka/libtgvoip.git" TMessagesProj/jni/libtgvoip
+          fi
+          ls TMessagesProj/jni/libtgvoip | head
 
       - name: Create local.properties
         run: |
           set -euo pipefail
           printf 'sdk.dir=%s\nndk.dir=%s\n' "$ANDROID_HOME" "$ANDROID_NDK_HOME" > local.properties
+          printf 'org.gradle.jvmargs=-Xmx2048m\nandroid.useDeprecatedNdk=true\n' > gradle.properties
 
       - name: Create signing keystore
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_8_X64 }}
         run: |
           set -euo pipefail
           mkdir -p TMessagesProj/config
-          keytool -genkeypair -v \
+          keytool -genkeypair \
             -keystore TMessagesProj/config/release.keystore \
             -alias KEY \
             -keyalg RSA \
@@ -66,8 +82,10 @@ jobs:
       - name: Create BuildVars.java
         run: |
           set -euo pipefail
-          cat > TMessagesProj/src/main/java/ir/telgeram/messenger/BuildVars.java <<'EOF'
-          package ir.telgeram.messenger;
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("TMessagesProj/src/main/java/ir/telgeram/messenger/BuildVars.java")
+          path.write_text("""package ir.telgeram.messenger;
 
           public class BuildVars {
               public static boolean DEBUG_VERSION = false;
@@ -83,13 +101,15 @@ jobs:
               public static String FOURSQUARE_API_KEY = "";
               public static String FOURSQUARE_API_VERSION = "20150326";
           }
-          EOF
+          """)
+          PY
 
       - name: Create google-services.json
         run: |
           set -euo pipefail
-          cat > TMessagesProj/google-services.json <<'EOF'
-          {
+          python3 - <<'PY'
+          from pathlib import Path
+          Path("TMessagesProj/google-services.json").write_text("""{
             "project_info": {
               "project_number": "0",
               "firebase_url": "https://rosegram.firebaseio.com",
@@ -105,28 +125,25 @@ jobs:
                   }
                 },
                 "oauth_client": [],
-                "api_key": [
-                  {
-                    "current_key": "dummy"
-                  }
-                ],
-                "services": {
-                  "appinvite_service": {
-                    "other_platform_oauth_client": []
-                  }
-                }
+                "api_key": [{"current_key": "dummy"}],
+                "services": {"appinvite_service": {"other_platform_oauth_client": []}}
               }
             ],
             "configuration_version": "1"
           }
-          EOF
+          """)
+          PY
 
       - name: Make gradlew executable
         run: chmod +x gradlew
 
       - name: Build release APK
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_8_X64 }}
         run: |
           set -euo pipefail
+          export PATH="$JAVA_HOME/bin:$PATH"
+          java -version
           ./gradlew assembleFatRelease --no-daemon --stacktrace
 
       - name: Collect APK

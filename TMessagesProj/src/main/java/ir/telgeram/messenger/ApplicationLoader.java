@@ -6,7 +6,7 @@
  * Copyright Nikolai Kudashov, 2013-2017.
  */
 
-package org.telegram.messenger;
+package ir.telgeram.messenger;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,10 +29,10 @@ import android.util.Base64;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.SerializedData;
-import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.Components.ForegroundDetector;
+import ir.telgeram.tgnet.ConnectionsManager;
+import ir.telgeram.tgnet.SerializedData;
+import ir.telgeram.tgnet.TLRPC;
+import ir.telgeram.ui.Components.ForegroundDetector;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -107,7 +107,7 @@ public class ApplicationLoader extends Application {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/org.telegram.messenger/files");
+        return new File("/data/data/ir.telgeram.messenger/files");
     }
 
     public static void postInitApplication() {

@@ -6,7 +6,7 @@
  * Copyright Nikolai Kudashov, 2013-2017.
  */
 
-package org.telegram.messenger;
+package ir.telgeram.messenger;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,24 +21,24 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.widget.Toast;
 
-import org.telegram.SQLite.SQLiteCursor;
-import org.telegram.messenger.query.BotQuery;
-import org.telegram.messenger.query.DraftQuery;
-import org.telegram.messenger.query.MessagesQuery;
-import org.telegram.messenger.query.SearchQuery;
-import org.telegram.messenger.query.StickersQuery;
-import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.NativeByteBuffer;
-import org.telegram.tgnet.RequestDelegate;
-import org.telegram.tgnet.SerializedData;
-import org.telegram.tgnet.TLObject;
-import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.AlertDialog;
-import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ChatActivity;
-import org.telegram.ui.Components.AlertsCreator;
-import org.telegram.ui.ProfileActivity;
+import ir.telgeram.SQLite.SQLiteCursor;
+import ir.telgeram.messenger.query.BotQuery;
+import ir.telgeram.messenger.query.DraftQuery;
+import ir.telgeram.messenger.query.MessagesQuery;
+import ir.telgeram.messenger.query.SearchQuery;
+import ir.telgeram.messenger.query.StickersQuery;
+import ir.telgeram.messenger.voip.VoIPService;
+import ir.telgeram.tgnet.ConnectionsManager;
+import ir.telgeram.tgnet.NativeByteBuffer;
+import ir.telgeram.tgnet.RequestDelegate;
+import ir.telgeram.tgnet.SerializedData;
+import ir.telgeram.tgnet.TLObject;
+import ir.telgeram.tgnet.TLRPC;
+import ir.telgeram.ui.ActionBar.AlertDialog;
+import ir.telgeram.ui.ActionBar.BaseFragment;
+import ir.telgeram.ui.ChatActivity;
+import ir.telgeram.ui.Components.AlertsCreator;
+import ir.telgeram.ui.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
