@@ -14,6 +14,8 @@ configurations {
 }
 
 dependencies {
+    compile 'com.google.android.gms:play-services-basement:10.2.0'
+    compile 'com.google.android.gms:play-services-base:10.2.0'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.android.gms:play-services-vision:10.2.0'
@@ -39,11 +41,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'customtabs'
         exclude group: 'com.google.android.gms', module: 'play-services-gcm'
         exclude group: 'com.google.android.gms', module: 'play-services-location'
-    }
-    compile('com.github.QuadFlask:colorpicker:0.0.15') {
-        exclude group: 'androidx.appcompat'
-        exclude group: 'androidx.annotation'
-        exclude group: 'androidx.core'
     }
     // Download, Catch, Etc... Images
     compile 'com.squareup.picasso:picasso:2.5.2'

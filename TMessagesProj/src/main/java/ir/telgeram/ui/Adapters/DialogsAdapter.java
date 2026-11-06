@@ -24,14 +24,21 @@ import java.util.ArrayList;
 
 public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
 
+    private static DialogsAdapter instance;
+    public boolean Hiddenmode;
     private Context mContext;
     private int dialogsType;
     private long openedDialogId;
     private int currentCount;
 
+    public static DialogsAdapter getInstance() {
+        return instance;
+    }
+
     public DialogsAdapter(Context context, int type) {
         mContext = context;
         dialogsType = type;
+        instance = this;
     }
 
     public void setOpenedDialogId(long id) {
@@ -43,7 +50,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         return current != getItemCount() || current == 1;
     }
 
-    private ArrayList<TLRPC.TL_dialog> getDialogsArray() {
+    public ArrayList<TLRPC.TL_dialog> getDialogsArray() {
         if (dialogsType == 0) {
             return MessagesController.getInstance().dialogs;
         } else if (dialogsType == 1) {

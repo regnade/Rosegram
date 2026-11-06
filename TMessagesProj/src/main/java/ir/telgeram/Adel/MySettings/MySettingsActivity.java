@@ -45,6 +45,16 @@ public class MySettingsActivity extends BaseFragment
 	private int ngroup;
 	private int contact;
 	private int all;
+	private int ghostactivate;
+	private int sendtyping;
+	private int sendDeliver;
+	private int channel;
+	private int unread;
+	private int bot;
+	private int favor;
+	private int drawStatus;
+	private int DefaultFont;
+	private int TabisUpside;
 
 	@Override
 	public boolean onFragmentCreate()

@@ -8,12 +8,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-
-import org.json.JSONObject;
+import android.app.AlertDialog;
 
 import ir.telgeram.messenger.AndroidUtilities;
 import ir.telgeram.messenger.LocaleController;
@@ -79,40 +74,17 @@ public class SelectColorActivity extends BaseFragment
 				}
 				else
 				{
-					ColorPickerDialogBuilder
-							.with(context)
+					new AlertDialog.Builder(context)
 							.setTitle(LocaleController.getString("SelectColor", R.string.SelectColor))
-							.initialColor(0xffffffff)
-							.wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-							.density(12)
-							.setOnColorSelectedListener(new OnColorSelectedListener()
-							{
-								@Override
-								public void onColorSelected(int selectedColor)
-								{
-									//toast("onColorSelected: 0x" + Integer.toHexString(selectedColor));
-								}
-							})
-							.setPositiveButton("ok", new ColorPickerClickListener()
-							{
-								@Override
-								public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors)
-								{
-									Setting.setTabcolor(selectedColor);
-									Setting.setActionbarcolor(selectedColor);
-									ThemeChanger.ChangeTheme();
-									parentLayout.rebuildAllFragmentViews(false);
-									finishFragment();
-								}
-							})
-							.setNegativeButton("cancel", new DialogInterface.OnClickListener()
+							.setPositiveButton("ok", new DialogInterface.OnClickListener()
 							{
 								@Override
 								public void onClick(DialogInterface dialog, int which)
 								{
+									finishFragment();
 								}
 							})
-							.build()
+							.setNegativeButton("cancel", null)
 							.show();
 				}
 			}

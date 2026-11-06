@@ -169,7 +169,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         PhotoViewer.PhotoViewerProvider {
 
     protected TLRPC.Chat currentChat;
-    protected TLRPC.User currentUser;
+    public TLRPC.User currentUser;
     protected TLRPC.EncryptedChat currentEncryptedChat;
     private boolean userBlocked = false;
 

@@ -192,7 +192,7 @@ public class LetterSectionsListView extends ListView implements AbsListView.OnSc
             canvas.translate(LocaleController.isRTL ? getWidth() - header.getWidth() : 0, top);
             canvas.clipRect(0, 0, getWidth(), header.getMeasuredHeight());
             if (top < 0) {
-                canvas.saveLayerAlpha(0, top, header.getWidth(), top + canvas.getHeight(), (int)(255 * (1.0f + (float)top / (float)header.getMeasuredHeight())), Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+                canvas.saveLayerAlpha(0, top, header.getWidth(), top + canvas.getHeight(), (int)(255 * (1.0f + (float)top / (float)header.getMeasuredHeight())), 0x04);
             }
             header.draw(canvas);
             canvas.restoreToCount(saveCount);

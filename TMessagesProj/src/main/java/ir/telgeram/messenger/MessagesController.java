@@ -62,6 +62,15 @@ public class MessagesController implements NotificationCenter.NotificationCenter
     public ArrayList<TLRPC.TL_dialog> dialogs = new ArrayList<>();
     public ArrayList<TLRPC.TL_dialog> dialogsServerOnly = new ArrayList<>();
     public ArrayList<TLRPC.TL_dialog> dialogsGroupsOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsFavoriteOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsBotOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsUnreadOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsChannelOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsJustGroupsOnly = new ArrayList<>();
+    public ArrayList<TLRPC.TL_dialog> dialogsContactOnly = new ArrayList<>();
+
+    public void reRunUpdateTimerProc() {
+    }
     public int nextDialogsCacheOffset;
     public ConcurrentHashMap<Long, Integer> dialogs_read_inbox_max = new ConcurrentHashMap<>(100, 1.0f, 2);
     public ConcurrentHashMap<Long, Integer> dialogs_read_outbox_max = new ConcurrentHashMap<>(100, 1.0f, 2);

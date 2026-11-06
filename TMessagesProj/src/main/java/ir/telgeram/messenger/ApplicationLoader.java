@@ -43,6 +43,13 @@ public class ApplicationLoader extends Application {
     public static volatile Context applicationContext;
     public static volatile Handler applicationHandler;
     public static volatile int instance_number = 0;
+
+    public static boolean IsLanguageSelected(Context context) {
+        return true;
+    }
+
+    public static void SetLanguageSelected(Context context, boolean selected) {
+    }
     private static volatile boolean applicationInited = false;
 
     public static volatile boolean isScreenOn = false;

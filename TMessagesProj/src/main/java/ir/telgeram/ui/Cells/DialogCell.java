@@ -166,6 +166,10 @@ public class DialogCell extends BaseCell
 		this.hiddenmode = hiddenmode;
 	}
 
+	public void setDialog(TLRPC.TL_dialog dialog, int i, int type) {
+		setDialog(dialog, i, type, false);
+	}
+
 	public void setDialog(TLRPC.TL_dialog dialog, int i, int type, boolean hiddenmode)
 	{
 		currentDialogId = dialog.id;
