@@ -49,14 +49,6 @@ jobs:
           echo "ANDROID_NDK_HOME=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
           echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r14b" >> "$GITHUB_ENV"
 
-      - name: Fetch libtgvoip
-        run: |
-          set -euo pipefail
-          if [ ! -f TMessagesProj/jni/libtgvoip/VoIPController.cpp ]; then
-            git clone --depth 1 "https://github.com/grishka/libtgvoip.git" TMessagesProj/jni/libtgvoip
-          fi
-          ls TMessagesProj/jni/libtgvoip | head
-
       - name: Create local.properties
         run: |
           set -euo pipefail
