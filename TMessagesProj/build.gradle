@@ -18,6 +18,18 @@ configurations {
             force 'com.google.android.gms:play-services-maps:10.2.0'
             force 'com.google.android.gms:play-services-location:10.2.0'
             force 'com.google.android.gms:play-services-vision:10.2.0'
+            force 'com.android.support:design:25.3.1'
+            force 'com.android.support:appcompat-v7:25.3.1'
+            force 'com.android.support:support-v4:25.3.1'
+            force 'com.android.support:support-compat:25.3.1'
+            force 'com.android.support:support-core-ui:25.3.1'
+            force 'com.android.support:support-core-utils:25.3.1'
+            force 'com.android.support:support-fragment:25.3.1'
+            force 'com.android.support:support-media-compat:25.3.1'
+            force 'com.android.support:recyclerview-v7:25.3.1'
+            force 'com.android.support:customtabs:25.3.1'
+            force 'com.android.support:cardview-v7:25.3.1'
+            force 'com.android.support:palette-v7:25.3.1'
         }
     }
 }
@@ -47,7 +59,7 @@ dependencies {
     compile 'com.android.support:customtabs:25.3.1'
     compile 'com.google.android.gms:play-services-location:10.2.0'
     compile ('com.onesignal:OneSignal:3.15.6') {
-        exclude group: 'com.android.support', module: 'customtabs'
+        exclude group: 'com.android.support'
         exclude group: 'com.google.android.gms', module: 'play-services-gcm'
         exclude group: 'com.google.android.gms', module: 'play-services-location'
     }
